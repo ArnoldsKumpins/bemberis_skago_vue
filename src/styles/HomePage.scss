@@ -1,17 +1,52 @@
+// =========================================================================
+// VARIABLES & MIXINS
+// =========================================================================
+
+// Define breakpoints
+$breakpoint-mobile: 767px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1200px;
+
+// Mixin for mobile devices (max-width: 767px)
+@mixin mobile {
+    @media (max-width: $breakpoint-mobile) {
+        @content;
+    }
+}
+
+// Mixin for tablet and up (min-width: 768px)
+@mixin tablet {
+    @media (min-width: $breakpoint-tablet) {
+        @content;
+    }
+}
+
+// Mixin for desktop and up (min-width: 1200px)
+@mixin desktop {
+    @media (min-width: $breakpoint-desktop) {
+        @content;
+    }
+}
+
+// =========================================================================
+// BASE STYLES
+// =========================================================================
+
 /* Custom image styling to force larger height on mobile while keeping aspect ratio */
 .custom-img {
     width: 100%;
     height: auto;
-    object-fit: cover;
-    /* Ensures the image covers the container area */
+    object-fit: cover; // Ensures the image covers the container area
     object-position: center;
-}
 
+    @include mobile {
+        height: 35rem;
+    }
+}
 
 /* Overlay box: light background, slightly rounded, subtle drop shadow */
 .overlay-box {
-    background-color: #f8f9fa;
-    /* light, opaque color */
+    background-color: #f8f9fa; // light, opaque color
     border-radius: 0.2rem;
     box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.3);
 
@@ -30,31 +65,13 @@
     opacity: 0.3;
 }
 
-#img1-box {
-    bottom: 0%;
-    justify-items: start;
-    padding: 1rem 1.5rem;
-
-    .text-normal {
-        font-size: 1.1rem;
-    }
-
-    .text-large {
-        font-size: 1.7rem;
-    }
-}
-
 /* Styling for the white box */
 .custom-box {
     background-color: #f8f9fa;
-    border-radius: 0.2rem;
-    /* Slightly rounded edges */
-    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.5);
-    /* Soft shadow */
+    border-radius: 0.2rem; // Slightly rounded edges
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.5); // Soft shadow
     width: 100%;
-    /* Ensures proper spacing */
-    position: relative;
-    /* Allows absolute positioning inside */
+    position: relative; // Allows absolute positioning inside
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,8 +81,8 @@
 .main-text {
     font-size: 1.7rem;
     font-weight: normal;
-    text-wrap: pretty;
-    margin: .5rem
+    text-wrap: nowrap;
+    margin: 0.5rem;
 }
 
 /* Small text positioning */
@@ -75,38 +92,88 @@
     text-wrap: pretty;
 }
 
+/* Medium text positioning */
+.medium-text {
+    font-size: 1.4rem;
+    font-weight: normal;
+    text-wrap: pretty;
+}
 
-/* For mobile devices (<768px), set a fixed height so that images become taller */
-@media (max-width: 767px) {
-    .custom-img {
-        height: 35rem;
+/* Responsive container with horizontal margins */
+.custom-container {
+    margin: 0 1.25rem; // default margin for mobile
+
+    @include tablet {
+        margin: 0 6rem;
     }
 
-    #img1-box {
+    @include desktop {
+        margin: 0 15rem;
+    }
+}
+
+.text-box {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.2rem;
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.3);
+
+    p {
+        margin-bottom: 0;
+
+    }
+
+}
+
+
+// =========================================================================
+// COMPONENT-SPECIFIC STYLES
+// =========================================================================
+
+/* Styles for #img1-box */
+#img1-box {
+    bottom: 0%;
+    justify-items: start;
+    padding: 1rem 1.5rem;
+    margin: 0 1.25rem;
+
+    .text-normal {
+        font-size: 1.1rem;
+    }
+
+    .text-large {
+        font-size: 1.7rem;
+    }
+
+    @include mobile {
         justify-items: center;
         padding: 1rem 1rem;
     }
 
-    
-}
-
-@media (min-width: 768px) {
-    #img1-box {
+    @include tablet {
         margin: 0 6rem !important;
     }
 
+    @include desktop {
+        margin: 0 15rem !important;
+    }
+}
+
+/* Styles for #img2-box3 (applied for tablet and larger screens) */
+@include tablet {
     #img2-box3 {
         left: 20%;
         margin-top: 1.5rem;
     }
-
-    .img-title {
-        margin: 0 0 7% 0;
-    }
 }
 
-@media (min-width: 1200px) {
-    #img1-box {
-        margin: 0 15rem !important;
+/* Responsive margins for .img-title */
+.img-title {
+    @include mobile {
+        margin: 0 0 3rem 0;
+    }
+
+    @include tablet {
+        margin: 0 0 7% 0;
     }
 }
